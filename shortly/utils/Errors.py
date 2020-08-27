@@ -1,0 +1,2 @@
+class SettingNotFound(EnvironmentError):
+    pass
