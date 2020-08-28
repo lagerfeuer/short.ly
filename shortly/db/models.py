@@ -1,6 +1,5 @@
 from flask import current_app
-from shortly.db.database import Base
-from sqlalchemy import Column, Integer, String, DateTime
+from shortly.db.database import db
 
 import hashlib
 from base64 import urlsafe_b64encode
@@ -12,13 +11,13 @@ def _hash(url, length=6):
     return str(urlsafe_b64encode(hsh), 'utf-8')[:length]
 
 
-class URL(Base):
+class URL(db.Model):
     __tablename__ = 'urls'
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    url = Column(String(1024), nullable=False)
-    short = Column(String(64), nullable=False, unique=True)
-    created = Column(DateTime, nullable=False)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    url = db.Column(db.String(1024), nullable=False)
+    short = db.Column(db.String(64), nullable=False, unique=True)
+    created = db.Column(db.DateTime, nullable=False)
 
     def __init__(self, url):
         self.url = url

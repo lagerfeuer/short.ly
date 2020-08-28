@@ -1,26 +1,14 @@
 from flask import Flask, redirect, render_template, url_for, abort
-from flask_sqlalchemy import SQLAlchemy
 
 import os
 import sys
 
-from shortly.db.database import init_db
-from shortly.db.models import URL
-from shortly.api.URL_API import URL_API
+from shortly.db.database import init_db, setup_db
 from shortly.utils import get_env, get_db_uri
 
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
-
-DEV_ENV = os.getenv('FLASK_ENV') == 'development'
-
-
-def _get_env_vars(lst):
-    vars = {}
-    for var in lst:
-        vars[var.split('_')[-1]] = get_env(var)
-    return vars
 
 
 def create_app(test_config=None):
@@ -35,16 +23,19 @@ def create_app(test_config=None):
     ###################################################################################################################
     # CONFIG
     ###################################################################################################################
-    database_uri = get_db_uri()
-
     app.config.from_mapping(
-        SECRET_KEY='secret key' if DEV_ENV else os.urandom(16),
-        SQLALCHEMY_DATABASE_URI=database_uri,
+        SECRET_KEY='secret key' if os.getenv('FLASK_ENV') == 'development' else os.urandom(16),
         SERVER_NAME='shortly.localhost:5000',
+        SQLALCHEMY_DATABASE_URI=get_db_uri(),
+        SQLALCHEMY_TRACK_MODIFICATIONS=True,
     )
 
     if test_config is not None:
         app.config.from_mapping(test_config)
+
+    setup_db(app)
+    from shortly.db.models import URL
+    from shortly.api.URL_API import URL_API
 
     ###################################################################################################################
     # ROUTES

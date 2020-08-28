@@ -1,7 +1,7 @@
 from flask import request
 from flask.views import MethodView
 
-from shortly.db.database import db_session
+from shortly.db.database import db
 from shortly.db.models import URL
 from shortly.utils import fail, success
 
@@ -35,8 +35,8 @@ class URL_API(MethodView):
             return fail("Field 'url' missing."), 400
 
         entry = URL(url)
-        db_session.add(entry)
-        db_session.commit()
+        db.session.add(entry)
+        db.session.commit()
 
         return success(entry)
 
