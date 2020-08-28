@@ -1,23 +1,26 @@
 from flask import request
 from flask.views import MethodView
 
+from shortly.api.URLSchema import UrlSchema
 from shortly.db.database import db
 from shortly.db.models import URL
 from shortly.utils import fail, success
 
+from marshmallow import ValidationError
 
-class URL_API(MethodView):
+
+class UrlApi(MethodView):
     def get(self):
         """
         Check whether the URL has been shortened and return the short link.
         :return: shortened URL or error
         """
-        json = request.get_json()
-        if json is None:
-            return fail("No payload"), 400
-        url = json.get('url')
-        if url is None:
-            return fail("Field 'url' missing."), 400
+        try:
+            json = UrlSchema().load(request.get_json())
+        except ValidationError as err:
+            return fail(err.messages), 400
+
+        url = json['url']
         if entry := URL.query.filter(URL.url == url).first():
             return success(entry)
         return fail("Could not find shortened URL"), 404
@@ -27,13 +30,12 @@ class URL_API(MethodView):
         Shorten an URL and return the shortened link.
         :return: shortened URL or error
         """
-        json = request.get_json()
-        if json is None:
-            return fail("No payload"), 400
-        url = json.get('url')
-        if url is None:
-            return fail("Field 'url' missing."), 400
+        try:
+            json = UrlSchema().load(request.get_json())
+        except ValidationError as err:
+            return fail(err.messages), 400
 
+        url = json['url']
         entry = URL(url)
         db.session.add(entry)
         db.session.commit()

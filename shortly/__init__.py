@@ -35,7 +35,7 @@ def create_app(test_config=None):
 
     setup_db(app)
     from shortly.db.models import URL
-    from shortly.api.URL_API import URL_API
+    from shortly.api.URL_API import UrlApi
 
     ###################################################################################################################
     # ROUTES
@@ -54,7 +54,7 @@ def create_app(test_config=None):
     def page_not_found(e):
         return render_template('404.html'), 404
 
-    app.add_url_rule('/api', view_func=URL_API.as_view('url_api'))
+    app.add_url_rule('/api', view_func=UrlApi.as_view('url_api'))
 
     ###################################################################################################################
     # CLI
