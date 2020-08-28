@@ -4,7 +4,7 @@ from sqlalchemy import Column, Integer, String, DateTime
 
 import hashlib
 from base64 import urlsafe_b64encode
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 def _hash(url, length=6):
@@ -28,4 +28,4 @@ class URL(Base):
             tmp = _hash(tmp)
         self.short = tmp
 
-        self.created = datetime.now()
+        self.created = datetime.now(timezone.utc)
