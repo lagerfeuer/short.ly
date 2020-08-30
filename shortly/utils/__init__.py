@@ -12,9 +12,7 @@ def get_env(name):
 
 def get_db_uri():
     database_uri = 'sqlite:////tmp/shortly.db.sqlite'
-    return database_uri
 
-    # TODO: allow selection of database backend
     db_backend = os.getenv('SHORTLY_DB_BACKEND')
     # use default sqlite if SHORTLY_DB_BACKEND is not defined
     if os.getenv('FLASK_ENV') == 'development' and db_backend is None:
@@ -43,7 +41,7 @@ def fail(msg, fields=None):
 
 def success(entry, fields=None):
     response = fields or {}
-    response['url'] = '{url}/{base64}'.format(url=current_app.config['SERVER_NAME'],
+    response['url'] = 'http://{url}/{base64}'.format(url=current_app.config['SERVER_NAME'],
                                               base64=entry.short)
     response['status'] = 'success'
     return response

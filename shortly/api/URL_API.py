@@ -40,7 +40,7 @@ class UrlApi(MethodView):
         db.session.add(entry)
         db.session.commit()
 
-        return success(entry)
+        return success(entry), 201
 
     def delete(self):
         pass
