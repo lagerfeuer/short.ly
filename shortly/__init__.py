@@ -42,7 +42,7 @@ def create_app(test_config=None):
     ###################################################################################################################
     @app.route('/')
     def hello_world():
-        return 'Hello World!'
+        return render_template('index.html')
 
     @app.route('/<string:short>')
     def resolve_url(short):
