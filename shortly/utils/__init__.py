@@ -15,7 +15,7 @@ def get_db_uri():
 
     db_backend = os.getenv('SHORTLY_DB_BACKEND')
     # use default sqlite if SHORTLY_DB_BACKEND is not defined
-    if os.getenv('FLASK_ENV') == 'development' and db_backend is None:
+    if os.getenv('FLASK_ENV') == 'development' or db_backend is None:
         return database_uri
     db_backend = db_backend.lower()
 
