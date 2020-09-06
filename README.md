@@ -1,9 +1,12 @@
 # short.ly
 Flask URL shortening service with simple API and sqlite/mysql database backend.
 
+![Main page](.imgs/shortly.png)
+![Example URL](.imgs/shortly-example.png)
+
 ## Run
 
-### Python
+### Local
 ```shell script
 # install dependencies
 python3 -m venv venv
