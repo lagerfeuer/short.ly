@@ -6,15 +6,17 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/shortly.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
 </head>
 <body>
-<div class="container-lg">
+<div id="main" class="container-lg">
     <div class="row">
         <div class="jumbotron bg-dark">
             <div class="container">
                 <h1 class="display-4 text-white">Short.ly</h1>
                 <p class="lead text-white">Free to use URL shortening service.</p>
                 <hr class="my-4 bg-light">
+
                 <div class="row">
                     <div class="col">
                         <form class="url-shorten">
@@ -25,10 +27,25 @@
                                 <input type="text" class="form-control" id="url-input-field"
                                        placeholder="https://..." aria-describedby="url-input-label">
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-success" type="button">Shorten</button>
+                                    <button class="btn btn-outline-light" type="button" onclick="requestURL()">
+                                        Shorten
+                                    </button>
                                 </div>
                             </div>
                         </form>
+                    </div>
+                </div>
+                <div id="url-container" class="row hidden">
+                    <div class="col">
+                        <div class="input-group input-group-lg">
+                            <input type="text" id="shortened-url-link" class="form-control" placeholder=""
+                                   aria-label="Shortened URL" aria-describedby="button-copy">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-light" type="button" id="button-copy" onclick="copy()">
+                                    <i class="fa fa-clipboard" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -36,6 +53,7 @@
     </div>
 </div>
 
+<script src="{{ url_for('static', filename='js/shortly.js') }}"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>

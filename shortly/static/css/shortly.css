@@ -1,8 +1,20 @@
 .jumbotron {
     width: 100%;
-    margin-top: 10%;
+    margin-top: 4%;
 }
 
 .url-shorten > .url-input {
     width: 100%;
+}
+
+.alert {
+    margin-top: 2%;
+}
+
+#url-container {
+    margin-top: 50px;
+}
+
+.hidden {
+    visibility: hidden;
 }
